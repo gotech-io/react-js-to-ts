@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 const filtersSlice = createSlice({
   name: 'filters',
@@ -12,7 +13,7 @@ const filtersSlice = createSlice({
   },
 });
 
-const selectFilters = (state) => state.filters;
+const selectFilters = (state: RootState) => state.filters;
 const { showCompletedChanged } = filtersSlice.actions;
 
 export { selectFilters, showCompletedChanged };
