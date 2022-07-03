@@ -1,11 +1,23 @@
-import { createContext, useState } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
 
 const themeNames = {
   light: 'light',
   dark: 'dark',
 };
 
-const themes = {
+interface Theme {
+  name: string;
+  primaryColor: string;
+  textColor: string;
+  disabledTextColor: string;
+  buttonColor: string;
+  borderColor: string;
+  checkboxColor: string;
+}
+
+type ThemeName = keyof typeof themeNames;
+
+const themes: Record<ThemeName, Theme> = {
   light: {
     name: themeNames.light,
     primaryColor: '#e8e8e8',
@@ -28,12 +40,16 @@ const themes = {
 
 const ThemeContext = createContext({
   theme: themes.light,
-  changeTheme: () => {},
+  changeTheme: (_themeName: ThemeName) => {},
 });
 
-const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(themes.light);
-  const changeTheme = (themeName) => {
+interface ThemeContextProps {
+  children: ReactNode | ReactNode[];
+}
+
+const ThemeProvider: React.FC<ThemeContextProps> = ({ children }) => {
+  const [theme, setTheme] = useState<Theme>(themes.light);
+  const changeTheme = (themeName: ThemeName) => {
     setTheme(themes[themeName]);
   };
 
@@ -49,5 +65,6 @@ const ThemeProvider = ({ children }) => {
   );
 };
 
+export type { Theme, ThemeName };
 export { ThemeContext, themeNames };
 export default ThemeProvider;
