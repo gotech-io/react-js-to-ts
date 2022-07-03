@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
 import { useContext } from 'react';
-import { ThemeContext, themeNames } from './themeContext';
+import { ThemeContext, ThemeName, themeNames } from './themeContext';
 import styled from '@emotion/styled/macro';
 import Toggle from './Toggle';
 
@@ -14,9 +13,11 @@ const ToggleContainer = styled.div`
 const ThemeToggle = () => {
   const { theme, changeTheme } = useContext(ThemeContext);
 
-  const toggleTheme = (checked) => {
+  const toggleTheme = () => {
     changeTheme(
-      theme.name === themeNames.light ? themeNames.dark : themeNames.light
+      (theme.name === themeNames.light
+        ? themeNames.dark
+        : themeNames.light) as ThemeName
     );
   };
 
@@ -24,25 +25,13 @@ const ThemeToggle = () => {
     <ToggleContainer>
       <Toggle
         theme={{ ...theme, checkboxColor: '#ddd561' }}
-        type="checkbox"
         checked={theme.name === themeNames.light}
-        onChange={(e) => {
-          toggleTheme(e.currentTarget.checked);
+        onChange={() => {
+          toggleTheme();
         }}
       />
     </ToggleContainer>
   );
-};
-
-ThemeToggle.propTypes = {
-  initialState: PropTypes.bool.isRequired,
-  text: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-};
-
-ThemeToggle.defaultProps = {
-  initialState: false,
-  onChange: (checked) => {},
 };
 
 export default ThemeToggle;
